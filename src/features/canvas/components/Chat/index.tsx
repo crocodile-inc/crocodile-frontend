@@ -1,22 +1,31 @@
 import AddIcon from '@mui/icons-material/Add';
 import { Box, Button, TextField } from '@mui/material';
-import { useEffect, useState } from 'react';
-
-const messages = [
-  { id: '0', author: 'Oleg', text: 'mouse' },
-  { id: '1', author: 'Dmitry', text: 'pen' },
-  { id: '2', author: 'Ivan', text: 'cat' },
-  { id: '3', author: 'Oleg', text: 'Mouse' },
-  { id: '4', author: 'Ivan', text: 'Garage' },
-  { id: '5', author: 'Anna', text: 'Dog' },
-  { id: '6', author: 'Oleg', text: 'Fish' },
-  { id: '7', author: 'Nikita', text: 'Bulldog' },
-];
+import { useEffect, useRef, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '~/shared/hooks/react-redux';
+import { selectGuesses } from '~/features/canvas/slice/selectors';
+import { useSocketActions } from '~/features/canvas/hooks/useSocketActions';
+import { addGuess } from '~/features/canvas/slice';
 
 export const Chat = () => {
+  const dispatch = useAppDispatch();
   const initialCoolDown = 3;
-  const [message, setMessage] = useState('');
+  const [author, setAuthor] = useState('');
+  const [guess, setGuess] = useState('');
   const [coolDown, setCoolDown] = useState(initialCoolDown);
+  const guessScrollRef = useRef<HTMLDivElement>();
+
+  const guesses = useAppSelector(selectGuesses);
+
+  const [socket, { sendGuessToServer, subscribeToGuesses }] = useSocketActions();
+
+  useEffect(() => {
+    const unsubscribeFomGuesses = subscribeToGuesses(guess => {
+      dispatch(addGuess(guess));
+    });
+    return () => {
+      unsubscribeFomGuesses();
+    };
+  }, [socket]);
 
   useEffect(() => {
     if (coolDown > 0) {
@@ -25,28 +34,62 @@ export const Chat = () => {
     }
   }, [coolDown]);
 
+  useEffect(() => {
+    if (guessScrollRef.current) {
+      guessScrollRef.current.scrollTop = guessScrollRef.current.scrollHeight;
+    }
+  }, [guessScrollRef.current, guesses]);
+
   return (
     <Box sx={{ border: '1px solid black', p: 2 }}>
-      <Box sx={{ overflowY: 'scroll', p: 1 }}>
-        {messages.map(message => (
-          <Box key={message.id}>{`${message.author}: ${message.text}`}</Box>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          overflowY: 'scroll',
+          p: 1,
+          maxHeight: '200px',
+          gap: 1,
+        }}
+        ref={guessScrollRef}
+      >
+        {guesses.map(guess => (
+          <Box
+            sx={{
+              width: 'max-content',
+              alignSelf: author === guess.author ? 'end' : 'start',
+              border: '1px solid black',
+              p: 0.5,
+            }}
+            key={guess.id}
+          >{`${guess.author}: ${guess.guess}`}</Box>
         ))}
       </Box>
-      <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2 }}>
+      <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2, mt: 2 }}>
+        <TextField
+          sx={{ width: '30%' }}
+          size="small"
+          fullWidth
+          value={author}
+          onChange={e => setAuthor(e.target.value)}
+          label="Author"
+          variant="outlined"
+        />
         <TextField
           size="small"
           fullWidth
-          value={message}
-          onChange={e => setMessage(e.target.value)}
-          label="Word"
+          value={guess}
+          onChange={e => setGuess(e.target.value)}
+          label="Guess"
           variant="outlined"
         />
         <Button
-          disabled={Boolean(!message || coolDown > 0)}
+          disabled={Boolean(!guess || !author || coolDown > 0)}
           variant="outlined"
           startIcon={<AddIcon />}
           onClick={() => {
-            setMessage('');
+            sendGuessToServer(guess, author);
+            setGuess('');
             setCoolDown(initialCoolDown);
           }}
         >

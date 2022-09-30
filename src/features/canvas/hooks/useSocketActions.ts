@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { routes } from '~/routes';
 import { useAppDispatch, useAppSelector } from '~/shared/hooks/react-redux';
 import { useSocketContext } from '~/shared/providers/socketProvider';
+import { Guess } from '~/features/canvas/models/Guess';
 
 export const useSocketActions = () => {
   const dispatch = useAppDispatch();
@@ -32,7 +33,9 @@ export const useSocketActions = () => {
     socketRef.current?.emit(events.toServer.START_NEW_GAME, { riddle, backgroundColor });
   };
 
-  const handleInitialPictureFromServer = (picture: Picture | undefined) => {
+  const handleInitialPictureFromServer = (
+    picture: { picture: Picture; guesses?: Guess[] } | undefined,
+  ) => {
     if (picture) {
       dispatch(initializePicture(picture));
     }
@@ -79,6 +82,21 @@ export const useSocketActions = () => {
     socketRef.current?.emit(events.toServer.CLEAR_TO_SERVER, currentRoomId);
   };
 
+  const sendGuessToServer = (guess: Guess['guess'], author: Guess['author']) => {
+    socketRef.current?.emit(events.toServer.GUESS_TO_SERVER, {
+      roomId: currentRoomId,
+      author,
+      guess,
+    });
+  };
+
+  const subscribeToGuesses = (callback: (guess: Guess) => void) => {
+    socketRef.current?.on(events.fromServer.GUESS_FROM_SERVER, callback);
+    return () => {
+      socketRef.current?.off(events.fromServer.GUESS_FROM_SERVER, callback);
+    };
+  };
+
   return [
     socketRef.current,
     {
@@ -90,6 +108,8 @@ export const useSocketActions = () => {
       sendBackgroundColorToServer,
       subscribeToBackgroundColor,
       clearPictureInRoom,
+      sendGuessToServer,
+      subscribeToGuesses,
     },
   ] as const;
 };

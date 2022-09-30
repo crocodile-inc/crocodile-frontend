@@ -29,10 +29,10 @@ export const RoomPage = () => {
       </Typography>
       <Box sx={{ display: 'flex', flexDirection: 'column', mt: 2, gap: 2 }}>
         <Box>
-          <Canvas />
+          <Chat />
         </Box>
         <Box>
-          <Chat />
+          <Canvas />
         </Box>
       </Box>
     </Box>

@@ -18,7 +18,7 @@ export const Canvas = () => {
   const picture = useAppSelector(selectPicture);
 
   const [
-    ,
+    socket,
     {
       sendStrokeToServer,
       subscribeToStrokes,
@@ -96,7 +96,7 @@ export const Canvas = () => {
       unsubscribeFomStrokes();
       unsubscribeFomBackgroundColor();
     };
-  }, [context]);
+  }, [socket, context]);
 
   const handleOnPointerDown = (e: PointerEvent<HTMLCanvasElement>) => {
     if (context) {
