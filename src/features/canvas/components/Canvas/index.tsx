@@ -7,15 +7,24 @@ import {
   clear,
   setBackgroundColor as updateBackgroundColor,
 } from '~/features/canvas/slice';
-import { selectInitialValues, selectPicture } from '~/features/canvas/slice/selectors';
-import { PointerEvent, useEffect, useRef, useState } from 'react';
+import {
+  selectInitialValues,
+  selectIsGameFinished,
+  selectPicture,
+} from '~/features/canvas/slice/selectors';
+import { FC, PointerEvent, useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '~/shared/hooks/react-redux';
 import { drawCircle, drawStroke, getCoords } from '~/shared/utils/canvasUtils';
 
-export const Canvas = () => {
+interface CanvasProps {
+  isAuthor: boolean;
+}
+
+export const Canvas: FC<CanvasProps> = ({ isAuthor }) => {
   const dispatch = useAppDispatch();
   const initialValues = useAppSelector(selectInitialValues);
   const picture = useAppSelector(selectPicture);
+  const isGameFinished = useAppSelector(selectIsGameFinished);
 
   const [
     socket,
@@ -145,55 +154,57 @@ export const Canvas = () => {
         />
         <canvas
           ref={canvasRef}
-          onPointerDown={handleOnPointerDown}
-          onPointerMove={handleOnPointerMove}
-          onPointerUp={handleOnPointerUp}
+          onPointerDown={isAuthor && !isGameFinished ? handleOnPointerDown : undefined}
+          onPointerMove={isAuthor && !isGameFinished ? handleOnPointerMove : undefined}
+          onPointerUp={isAuthor && !isGameFinished ? handleOnPointerUp : undefined}
           width={width}
           height={height}
           style={{ position: 'absolute', zIndex: 11, top: 0, left: 0, border: '1px solid black' }}
         />
       </Box>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          flexDirection: 'row',
-          gap: 2,
-        }}
-      >
-        <Slider
-          defaultValue={initialValues.strokeWidth}
-          onChange={(e, value) => setLineWidth(value as number)}
-          valueLabelDisplay="auto"
-          valueLabelFormat={value => `Stroke width: ${value}`}
-          step={4}
-          marks
-          min={2}
-          max={62}
-        />
-        <TextField
-          size="small"
-          fullWidth
-          type="color"
-          value={strokeColor}
-          onChange={e => setStrokeColor(e.target.value)}
-          label="Stroke"
-          variant="outlined"
-        />
-        <TextField
-          size="small"
-          fullWidth
-          type="color"
-          value={backgroundColor}
-          onChange={e => setBackgroundColor(e.target.value)}
-          label="Background"
-          variant="outlined"
-        />
-        <Button variant="outlined" onClick={clearPictureInRoom}>
-          Clear
-        </Button>
-      </Box>
+      {isAuthor && !isGameFinished && (
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            flexDirection: 'row',
+            gap: 2,
+          }}
+        >
+          <Slider
+            defaultValue={initialValues.strokeWidth}
+            onChange={(e, value) => setLineWidth(value as number)}
+            valueLabelDisplay="auto"
+            valueLabelFormat={value => `Stroke width: ${value}`}
+            step={4}
+            marks
+            min={2}
+            max={62}
+          />
+          <TextField
+            size="small"
+            fullWidth
+            type="color"
+            value={strokeColor}
+            onChange={e => setStrokeColor(e.target.value)}
+            label="Stroke"
+            variant="outlined"
+          />
+          <TextField
+            size="small"
+            fullWidth
+            type="color"
+            value={backgroundColor}
+            onChange={e => setBackgroundColor(e.target.value)}
+            label="Background"
+            variant="outlined"
+          />
+          <Button variant="outlined" onClick={clearPictureInRoom}>
+            Clear
+          </Button>
+        </Box>
+      )}
     </Box>
   );
 };

@@ -23,7 +23,7 @@ export const useSocketActions = () => {
   const handleRoomIdFromServer = (roomId: Room['id']) => {
     dispatch(setCurrentRoomId(roomId));
     socketRef.current?.off(events.fromServer.ROOM_ID_FROM_SERVER, handleRoomIdFromServer);
-    navigate(reverse(routes.rooms.room, { roomId }));
+    navigate(reverse(routes.rooms.room, { roomId }), { state: { author: true } });
   };
 
   const startNewGame = (riddle: Room['riddle']) => {

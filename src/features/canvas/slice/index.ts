@@ -8,6 +8,7 @@ interface CanvasState {
   currentRoomId: Room['id'] | undefined | null;
   picture: Picture | undefined;
   guesses: Guess[];
+  isGameFinished: boolean;
   initialValues: {
     strokeWidth: number;
     strokeColor: string;
@@ -20,6 +21,7 @@ const initialState: CanvasState = {
   currentRoomId: undefined,
   picture: undefined,
   guesses: [],
+  isGameFinished: false,
   initialValues: {
     strokeWidth: 6,
     strokeColor: '#000000',
@@ -36,6 +38,7 @@ export const canvasSlice = createSlice({
       state.picture = payload.picture;
       if (payload.guesses) {
         state.guesses = payload.guesses;
+        state.isGameFinished = payload.guesses.some(guess => guess.victorious);
       }
     },
     addStroke(state, { payload }: PayloadAction<Stroke>) {
@@ -54,6 +57,7 @@ export const canvasSlice = createSlice({
     },
     addGuess(state, { payload }: PayloadAction<Guess>) {
       state.guesses.push(payload);
+      state.isGameFinished = !!payload.victorious;
     },
   },
 });

@@ -4,7 +4,7 @@ import { Chat } from '~/features/canvas/components/Chat';
 import { useSocketActions } from '~/features/canvas/hooks/useSocketActions';
 import { selectCurrentRoomId } from '~/features/canvas/slice/selectors';
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { useAppSelector } from '~/shared/hooks/react-redux';
 
 interface RoomPageParams {
@@ -13,8 +13,11 @@ interface RoomPageParams {
 
 export const RoomPage = () => {
   const { roomId } = useParams<keyof RoomPageParams>() as RoomPageParams;
+  const { state } = useLocation();
 
   const currentRoomId = useAppSelector(selectCurrentRoomId);
+
+  const isAuthor = Boolean(state?.author) || false;
 
   const [, { joinTheGame }] = useSocketActions();
 
@@ -29,10 +32,10 @@ export const RoomPage = () => {
       </Typography>
       <Box sx={{ display: 'flex', flexDirection: 'column', mt: 2, gap: 2 }}>
         <Box>
-          <Chat />
+          <Chat isAuthor={isAuthor} />
         </Box>
         <Box>
-          <Canvas />
+          <Canvas isAuthor={isAuthor} />
         </Box>
       </Box>
     </Box>
