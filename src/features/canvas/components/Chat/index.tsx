@@ -23,11 +23,11 @@ export const Chat: FC<ChatProps> = ({ isAuthor }) => {
   const [socket, { sendGuessToServer, subscribeToGuesses }] = useSocketActions();
 
   useEffect(() => {
-    const unsubscribeFomGuesses = subscribeToGuesses(guess => {
+    const unsubscribeFromGuesses = subscribeToGuesses(guess => {
       dispatch(addGuess(guess));
     });
     return () => {
-      unsubscribeFomGuesses();
+      unsubscribeFromGuesses();
     };
   }, [socket]);
 

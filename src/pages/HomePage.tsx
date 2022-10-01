@@ -10,7 +10,7 @@ import { routes } from '~/routes';
 export const HomePage = () => {
   const navigate = useNavigate();
 
-  const [wordForCreateRoom, setWordForCreateRoom] = useState<string>('');
+  const [riddleForCreateRoom, setRiddleForCreateRoom] = useState<string>('');
   const [joinToRoomId, setJoinToRoomId] = useState<string>('');
 
   const [, { startNewGame }] = useSocketActions();
@@ -59,16 +59,16 @@ export const HomePage = () => {
           <TextField
             size="small"
             fullWidth
-            value={wordForCreateRoom}
-            onChange={e => setWordForCreateRoom(e.target.value)}
-            label="Word"
+            value={riddleForCreateRoom}
+            onChange={e => setRiddleForCreateRoom(e.target.value)}
+            label="Riddle"
             variant="outlined"
           />
           <Button
-            disabled={Boolean(!wordForCreateRoom)}
+            disabled={Boolean(!riddleForCreateRoom)}
             variant="outlined"
             startIcon={<AddIcon />}
-            onClick={() => startNewGame(wordForCreateRoom)}
+            onClick={() => startNewGame(riddleForCreateRoom)}
           >
             Create
           </Button>

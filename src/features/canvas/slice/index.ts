@@ -34,7 +34,7 @@ export const canvasSlice = createSlice({
   name: 'canvas',
   initialState,
   reducers: {
-    initializePicture(state, { payload }: PayloadAction<{ picture: Picture; guesses?: Guess[] }>) {
+    initializeRoomData(state, { payload }: PayloadAction<{ picture: Picture; guesses?: Guess[] }>) {
       state.picture = payload.picture;
       if (payload.guesses) {
         state.guesses = payload.guesses;
@@ -63,7 +63,7 @@ export const canvasSlice = createSlice({
 });
 
 export const {
-  initializePicture,
+  initializeRoomData,
   addStroke,
   clear,
   setCurrentRoomId,

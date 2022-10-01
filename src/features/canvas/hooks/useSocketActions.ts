@@ -2,7 +2,7 @@ import { events } from '~/features/canvas/constants';
 import { Picture } from '~/features/canvas/models/Picture';
 import { Room } from '~/features/canvas/models/Room';
 import { Stroke } from '~/features/canvas/models/Stroke';
-import { addStroke, initializePicture, setCurrentRoomId } from '~/features/canvas/slice';
+import { addStroke, initializeRoomData, setCurrentRoomId } from '~/features/canvas/slice';
 import { selectCurrentRoomId, selectInitialValues } from '~/features/canvas/slice/selectors';
 import { reverse } from 'named-urls';
 import { useNavigate } from 'react-router-dom';
@@ -33,20 +33,17 @@ export const useSocketActions = () => {
     socketRef.current?.emit(events.toServer.START_NEW_GAME, { riddle, backgroundColor });
   };
 
-  const handleInitialPictureFromServer = (
-    picture: { picture: Picture; guesses?: Guess[] } | undefined,
+  const handleRoomDataFromServer = (
+    roomData: { picture: Picture; guesses?: Guess[] } | undefined,
   ) => {
-    if (picture) {
-      dispatch(initializePicture(picture));
+    if (roomData) {
+      dispatch(initializeRoomData(roomData));
     }
   };
 
   const joinTheGame = (roomId: Room['id']) => {
     dispatch(setCurrentRoomId(roomId));
-    socketRef.current?.on(
-      events.fromServer.INITIAL_PICTURE_FROM_SERVER,
-      handleInitialPictureFromServer,
-    );
+    socketRef.current?.on(events.fromServer.ROOM_DATA_FROM_SERVER, handleRoomDataFromServer);
     socketRef.current?.emit(events.toServer.JOIN_THE_GAME, roomId);
   };
 
