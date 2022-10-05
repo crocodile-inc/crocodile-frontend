@@ -16,3 +16,14 @@ export const events = {
     ANSWER_FROM_SERVER: 'ANSWER_FROM_SERVER',
   },
 };
+
+export const canvasSizes = {
+  width: 1116,
+  height: 600,
+};
+
+export const initialStrokeWidth = 6;
+
+export const initialStrokeColor = '#000000';
+
+export const initialBackgroundColor = '#FFFFFF';

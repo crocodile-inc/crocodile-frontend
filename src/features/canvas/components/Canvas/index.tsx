@@ -7,14 +7,16 @@ import {
   clear,
   setBackgroundColor as updateBackgroundColor,
 } from '~/features/canvas/slice';
-import {
-  selectInitialValues,
-  selectIsGameFinished,
-  selectPicture,
-} from '~/features/canvas/slice/selectors';
+import { selectIsGameFinished, selectPicture } from '~/features/canvas/slice/selectors';
 import { FC, PointerEvent, useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '~/shared/hooks/react-redux';
 import { drawCircle, drawStroke, getCoords } from '~/shared/utils/canvasUtils';
+import {
+  canvasSizes,
+  initialBackgroundColor,
+  initialStrokeColor,
+  initialStrokeWidth,
+} from '~/features/canvas/constants';
 
 interface CanvasProps {
   isAuthor: boolean;
@@ -22,7 +24,6 @@ interface CanvasProps {
 
 export const Canvas: FC<CanvasProps> = ({ isAuthor }) => {
   const dispatch = useAppDispatch();
-  const initialValues = useAppSelector(selectInitialValues);
   const picture = useAppSelector(selectPicture);
   const isGameFinished = useAppSelector(selectIsGameFinished);
 
@@ -43,25 +44,11 @@ export const Canvas: FC<CanvasProps> = ({ isAuthor }) => {
   const backgroundRef = useRef<HTMLCanvasElement>(null);
   const backgroundContext = backgroundRef.current?.getContext('2d');
 
-  const [strokeWidth, setLineWidth] = useState(initialValues.strokeWidth);
-  const [strokeColor, setStrokeColor] = useState(initialValues.strokeColor);
-  const [backgroundColor, setBackgroundColor] = useDebounce(initialValues.backgroundColor, 350);
+  const [strokeWidth, setStrokeWidth] = useState(initialStrokeWidth);
+  const [strokeColor, setStrokeColor] = useState(initialStrokeColor);
+  const [backgroundColor, setBackgroundColor] = useDebounce(initialBackgroundColor, 150);
 
   const [currentStrokePoints, setCurrentStrokePoints] = useState<Point[]>([]);
-
-  const width = 1116;
-  const height = 600;
-
-  useEffect(() => {
-    if (canvasRef.current) {
-      canvasRef.current.width = width;
-      canvasRef.current.height = height;
-    }
-    if (backgroundRef.current) {
-      backgroundRef.current.width = width;
-      backgroundRef.current.height = height;
-    }
-  }, [canvasRef.current, backgroundRef.current]);
 
   useEffect(() => {
     dispatch(clear());
@@ -98,7 +85,6 @@ export const Canvas: FC<CanvasProps> = ({ isAuthor }) => {
       }
     });
     const unsubscribeFomBackgroundColor = subscribeToBackgroundColor(backgroundColor => {
-      setBackgroundColor(backgroundColor);
       dispatch(updateBackgroundColor(backgroundColor));
     });
     return () => {
@@ -129,7 +115,7 @@ export const Canvas: FC<CanvasProps> = ({ isAuthor }) => {
     }
   };
 
-  const handleOnPointerUp = (e: PointerEvent<HTMLCanvasElement>) => {
+  const handleOnPointerUp = () => {
     if (context) {
       context.closePath();
       if (currentStrokePoints.length) {
@@ -148,8 +134,8 @@ export const Canvas: FC<CanvasProps> = ({ isAuthor }) => {
       <Box sx={{ position: 'relative', overflowX: 'scroll' }}>
         <canvas
           ref={backgroundRef}
-          width={width}
-          height={height}
+          width={canvasSizes.width}
+          height={canvasSizes.height}
           style={{ zIndex: 10, border: '1px solid black' }}
         />
         <canvas
@@ -157,8 +143,8 @@ export const Canvas: FC<CanvasProps> = ({ isAuthor }) => {
           onPointerDown={isAuthor && !isGameFinished ? handleOnPointerDown : undefined}
           onPointerMove={isAuthor && !isGameFinished ? handleOnPointerMove : undefined}
           onPointerUp={isAuthor && !isGameFinished ? handleOnPointerUp : undefined}
-          width={width}
-          height={height}
+          width={canvasSizes.width}
+          height={canvasSizes.height}
           style={{ position: 'absolute', zIndex: 11, top: 0, left: 0, border: '1px solid black' }}
         />
       </Box>
@@ -173,8 +159,8 @@ export const Canvas: FC<CanvasProps> = ({ isAuthor }) => {
           }}
         >
           <Slider
-            defaultValue={initialValues.strokeWidth}
-            onChange={(e, value) => setLineWidth(value as number)}
+            defaultValue={strokeWidth}
+            onChange={(e, value) => setStrokeWidth(value as number)}
             valueLabelDisplay="auto"
             valueLabelFormat={value => `Stroke width: ${value}`}
             step={4}

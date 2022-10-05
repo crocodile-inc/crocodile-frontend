@@ -9,11 +9,6 @@ interface CanvasState {
   picture: Picture | undefined;
   guesses: Guess[];
   isGameFinished: boolean;
-  initialValues: {
-    strokeWidth: number;
-    strokeColor: string;
-    backgroundColor: string;
-  };
   strokes: Stroke[];
 }
 
@@ -22,11 +17,6 @@ const initialState: CanvasState = {
   picture: undefined,
   guesses: [],
   isGameFinished: false,
-  initialValues: {
-    strokeWidth: 6,
-    strokeColor: '#000000',
-    backgroundColor: '#FFFFFF',
-  },
   strokes: [],
 };
 
@@ -34,7 +24,7 @@ export const canvasSlice = createSlice({
   name: 'canvas',
   initialState,
   reducers: {
-    initializeRoomData(state, { payload }: PayloadAction<{ picture: Picture; guesses?: Guess[] }>) {
+    initializeRoom(state, { payload }: PayloadAction<{ picture: Picture; guesses?: Guess[] }>) {
       state.picture = payload.picture;
       if (payload.guesses) {
         state.guesses = payload.guesses;
@@ -62,13 +52,7 @@ export const canvasSlice = createSlice({
   },
 });
 
-export const {
-  initializeRoomData,
-  addStroke,
-  clear,
-  setCurrentRoomId,
-  setBackgroundColor,
-  addGuess,
-} = canvasSlice.actions;
+export const { initializeRoom, addStroke, clear, setCurrentRoomId, setBackgroundColor, addGuess } =
+  canvasSlice.actions;
 
 export default canvasSlice.reducer;
