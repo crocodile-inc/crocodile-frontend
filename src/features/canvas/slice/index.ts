@@ -1,58 +1,93 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Picture } from '~/features/canvas/models/Picture';
-import { Room } from '~/features/canvas/models/Room';
-import { Stroke } from '~/features/canvas/models/Stroke';
-import { Guess } from '~/features/canvas/models/Guess';
+import {
+  initialBackgroundColor,
+  initialStrokeColor,
+  initialStrokeWidth,
+} from '~/features/canvas/constants';
+import { Guess, Picture, Room, Stroke } from '~/features/canvas/models';
 
 interface CanvasState {
   currentRoomId: Room['id'] | undefined | null;
-  picture: Picture | undefined;
-  guesses: Guess[];
   isGameFinished: boolean;
-  strokes: Stroke[];
+  guesses: Guess[];
+  local: {
+    strokeWidth: number;
+    strokeColor: string;
+    backgroundColor: string;
+    strokes: Stroke[];
+  };
+  remote: {
+    backgroundColor: string;
+    strokes: Stroke[];
+  } | null;
 }
 
 const initialState: CanvasState = {
   currentRoomId: undefined,
-  picture: undefined,
-  guesses: [],
   isGameFinished: false,
-  strokes: [],
+  guesses: [],
+  local: {
+    strokeWidth: initialStrokeWidth,
+    strokeColor: initialStrokeColor,
+    backgroundColor: initialBackgroundColor,
+    strokes: [],
+  },
+  remote: null,
 };
 
 export const canvasSlice = createSlice({
   name: 'canvas',
   initialState,
   reducers: {
+    setStrokeWidth(state, { payload }: PayloadAction<Stroke['strokeWidth']>) {
+      state.local.strokeWidth = payload;
+    },
+    setStrokeColor(state, { payload }: PayloadAction<Stroke['strokeColor']>) {
+      state.local.strokeColor = payload;
+    },
+    setBackgroundColor(state, { payload }: PayloadAction<Picture['backgroundColor']>) {
+      state.local.backgroundColor = payload;
+      if (state.remote) {
+        state.remote.backgroundColor = payload;
+      }
+    },
     initializeRoom(state, { payload }: PayloadAction<{ picture: Picture; guesses?: Guess[] }>) {
-      state.picture = payload.picture;
+      state.remote = {
+        backgroundColor: payload.picture.backgroundColor,
+        strokes: payload.picture.strokes,
+      };
       if (payload.guesses) {
         state.guesses = payload.guesses;
         state.isGameFinished = payload.guesses.some(guess => guess.victorious);
       }
     },
-    addStroke(state, { payload }: PayloadAction<Stroke>) {
-      state.strokes.push(payload);
-    },
-    clear(state) {
-      state.strokes = initialState.strokes;
-    },
     setCurrentRoomId(state, { payload }: PayloadAction<CanvasState['currentRoomId']>) {
       state.currentRoomId = payload;
     },
-    setBackgroundColor(state, { payload }: PayloadAction<Picture['backgroundColor']>) {
-      if (state.picture) {
-        state.picture.backgroundColor = payload;
-      }
+    addStroke(state, { payload }: PayloadAction<Stroke>) {
+      state.local.strokes.push(payload);
     },
     addGuess(state, { payload }: PayloadAction<Guess>) {
       state.guesses.push(payload);
-      state.isGameFinished = !!payload.victorious;
+      if (payload.victorious) {
+        state.isGameFinished = true;
+      }
+    },
+    clear() {
+      return initialState;
     },
   },
 });
 
-export const { initializeRoom, addStroke, clear, setCurrentRoomId, setBackgroundColor, addGuess } =
-  canvasSlice.actions;
+export const {
+  setStrokeWidth,
+  setStrokeColor,
+  setBackgroundColor,
+  initializeRoom,
+  addStroke,
+  setCurrentRoomId,
+  addGuess,
+  clear,
+} = canvasSlice.actions;
 
 export default canvasSlice.reducer;

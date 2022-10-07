@@ -1,4 +1,4 @@
-import { Stroke } from '~/features/canvas/models/Stroke';
+import { Stroke } from '~/features/canvas/models';
 import { PointerEvent } from 'react';
 
 export const getCoords = (e: PointerEvent<HTMLCanvasElement>) => {
