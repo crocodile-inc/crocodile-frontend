@@ -1,7 +1,4 @@
 import { events, initialBackgroundColor } from '~/features/canvas/constants';
-import { Picture } from '~/features/canvas/models/Picture';
-import { Room } from '~/features/canvas/models/Room';
-import { Stroke } from '~/features/canvas/models/Stroke';
 import { addStroke, initializeRoom, setCurrentRoomId } from '~/features/canvas/slice';
 import { selectCurrentRoomId } from '~/features/canvas/slice/selectors';
 import { reverse } from 'named-urls';
@@ -9,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { routes } from '~/routes';
 import { useAppDispatch, useAppSelector } from '~/shared/hooks/react-redux';
 import { useSocketContext } from '~/shared/providers/socketProvider';
-import { Guess } from '~/features/canvas/models/Guess';
+import { Guess, Picture, Room, Stroke } from '~/features/canvas/models';
 
 export const useSocketActions = () => {
   const dispatch = useAppDispatch();

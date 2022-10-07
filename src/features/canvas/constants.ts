@@ -18,8 +18,8 @@ export const events = {
 };
 
 export const canvasSizes = {
-  width: 1116,
-  height: 600,
+  width: 650,
+  height: 650,
 };
 
 export const initialStrokeWidth = 6;
@@ -27,3 +27,5 @@ export const initialStrokeWidth = 6;
 export const initialStrokeColor = '#000000';
 
 export const initialBackgroundColor = '#FFFFFF';
+
+export const chatCoolDown = 3;
