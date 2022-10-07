@@ -1,15 +1,12 @@
-import { events } from '~/features/canvas/constants';
-import { Picture } from '~/features/canvas/models/Picture';
-import { Room } from '~/features/canvas/models/Room';
-import { Stroke } from '~/features/canvas/models/Stroke';
-import { addStroke, initializeRoomData, setCurrentRoomId } from '~/features/canvas/slice';
-import { selectCurrentRoomId, selectInitialValues } from '~/features/canvas/slice/selectors';
+import { events, initialBackgroundColor } from '~/features/canvas/constants';
+import { addStroke, initializeRoom, setCurrentRoomId } from '~/features/canvas/slice';
+import { selectCurrentRoomId } from '~/features/canvas/slice/selectors';
 import { reverse } from 'named-urls';
 import { useNavigate } from 'react-router-dom';
 import { routes } from '~/routes';
 import { useAppDispatch, useAppSelector } from '~/shared/hooks/react-redux';
 import { useSocketContext } from '~/shared/providers/socketProvider';
-import { Guess } from '~/features/canvas/models/Guess';
+import { Guess, Picture, Room, Stroke } from '~/features/canvas/models';
 
 export const useSocketActions = () => {
   const dispatch = useAppDispatch();
@@ -17,7 +14,6 @@ export const useSocketActions = () => {
 
   const { socketRef } = useSocketContext();
 
-  const initialValues = useAppSelector(selectInitialValues);
   const currentRoomId = useAppSelector(selectCurrentRoomId);
 
   const handleRoomIdFromServer = (roomId: Room['id']) => {
@@ -27,7 +23,7 @@ export const useSocketActions = () => {
   };
 
   const startNewGame = (riddle: Room['riddle']) => {
-    const backgroundColor = initialValues.backgroundColor;
+    const backgroundColor = initialBackgroundColor;
     dispatch(setCurrentRoomId(null));
     socketRef.current?.on(events.fromServer.ROOM_ID_FROM_SERVER, handleRoomIdFromServer);
     socketRef.current?.emit(events.toServer.START_NEW_GAME, { riddle, backgroundColor });
@@ -37,7 +33,7 @@ export const useSocketActions = () => {
     roomData: { picture: Picture; guesses?: Guess[] } | undefined,
   ) => {
     if (roomData) {
-      dispatch(initializeRoomData(roomData));
+      dispatch(initializeRoom(roomData));
     }
   };
 

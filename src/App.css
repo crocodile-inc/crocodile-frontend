@@ -1,0 +1,12 @@
+.gradient-text {
+  font-weight: 900 !important;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-center {
+  width: fit-content;
+  margin-right: auto !important;
+  margin-left: auto !important;
+}

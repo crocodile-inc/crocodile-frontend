@@ -1,10 +1,13 @@
 import AddIcon from '@mui/icons-material/Add';
-import { Box, Button, TextField } from '@mui/material';
+import { Box, Button, TextField, Typography } from '@mui/material';
 import { FC, useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '~/shared/hooks/react-redux';
 import { selectGuesses } from '~/features/canvas/slice/selectors';
 import { useSocketActions } from '~/features/canvas/hooks/useSocketActions';
 import { addGuess } from '~/features/canvas/slice';
+import { canvasSizes, chatCoolDown } from '~/features/canvas/constants';
+import styles from './Chat.module.css';
+import classNames from 'classnames';
 
 interface ChatProps {
   isAuthor: boolean;
@@ -12,10 +15,11 @@ interface ChatProps {
 
 export const Chat: FC<ChatProps> = ({ isAuthor }) => {
   const dispatch = useAppDispatch();
-  const initialCoolDown = 3;
+
   const [author, setAuthor] = useState(isAuthor ? 'Author' : '');
   const [guess, setGuess] = useState('');
-  const [coolDown, setCoolDown] = useState(initialCoolDown);
+  const [coolDown, setCoolDown] = useState(chatCoolDown);
+
   const guessScrollRef = useRef<HTMLDivElement>();
 
   const guesses = useAppSelector(selectGuesses);
@@ -45,49 +49,57 @@ export const Chat: FC<ChatProps> = ({ isAuthor }) => {
   }, [guessScrollRef.current, guesses]);
 
   return (
-    <Box sx={{ border: '1px solid black', p: 2 }}>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+        minWidth: '450px',
+        border: '1px solid black',
+        p: 2,
+        height: `${canvasSizes.height}px`,
+        maxHeight: `${canvasSizes.height}px`,
+      }}
+    >
       <Box
         sx={{
           display: 'flex',
           flexDirection: 'column',
           overflowY: 'scroll',
           p: 1,
-          maxHeight: '200px',
-          gap: 1,
+          flexGrow: 1,
+          gap: 0.5,
         }}
         ref={guessScrollRef}
       >
         {guesses.map(guess => {
           if (!guess.victorious) {
             return (
-              <Box
-                sx={{
-                  width: 'max-content',
-                  alignSelf: author === guess.author ? 'end' : 'start',
-                  border: '1px solid black',
-                  p: 0.5,
-                }}
+              <div
                 key={guess.id}
-              >{`${guess.author}: ${guess.guess}`}</Box>
+                className={classNames(styles.wrapper, { [styles.author]: author === guess.author })}
+              >
+                <Typography
+                  className={classNames(styles.message, {
+                    [styles.author]: author === guess.author,
+                  })}
+                >
+                  <span className="gradient-text">{guess.author}: </span>
+                  {guess.guess}
+                </Typography>
+              </div>
             );
           } else {
             return (
-              <Box
-                sx={{
-                  width: '100%',
-                  textAlign: 'center',
-                  borderBottom: '1px solid green',
-                  borderTop: '1px solid green',
-                  p: 0.5,
-                  color: 'green',
-                }}
-                key={guess.id}
-              >{`${guess.author} won, riddle word: ${guess.guess}`}</Box>
+              <Typography className={styles.victorious} key={guess.id}>
+                <span className="gradient-text">{guess.author} won, riddle word: </span>
+                {guess.guess}
+              </Typography>
             );
           }
         })}
       </Box>
-      <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2, mt: 2 }}>
+      <Box sx={{ display: 'flex', flexDirection: 'row', gap: 0.5, mt: 2 }}>
         {!isAuthor && (
           <TextField
             sx={{ width: '30%' }}
@@ -114,7 +126,7 @@ export const Chat: FC<ChatProps> = ({ isAuthor }) => {
           onClick={() => {
             sendGuessToServer(guess, author);
             setGuess('');
-            setCoolDown(initialCoolDown);
+            setCoolDown(chatCoolDown);
           }}
         >
           {coolDown > 0 ? coolDown : 'Send'}

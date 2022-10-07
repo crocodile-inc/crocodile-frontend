@@ -1,11 +1,11 @@
 import { Box, Typography } from '@mui/material';
-import { Canvas } from '~/features/canvas/components/Canvas';
-import { Chat } from '~/features/canvas/components/Chat';
 import { useSocketActions } from '~/features/canvas/hooks/useSocketActions';
 import { selectCurrentRoomId } from '~/features/canvas/slice/selectors';
 import { useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import { useAppSelector } from '~/shared/hooks/react-redux';
+import { useAppDispatch, useAppSelector } from '~/shared/hooks/react-redux';
+import { PlayingArea } from '~/features/canvas/views';
+import { clear } from '~/features/canvas/slice';
 
 interface RoomPageParams {
   roomId: string;
@@ -14,6 +14,8 @@ interface RoomPageParams {
 export const RoomPage = () => {
   const { roomId } = useParams<keyof RoomPageParams>() as RoomPageParams;
   const { state } = useLocation();
+
+  const dispatch = useAppDispatch();
 
   const currentRoomId = useAppSelector(selectCurrentRoomId);
 
@@ -25,18 +27,32 @@ export const RoomPage = () => {
     joinTheGame(roomId);
   }, [currentRoomId]);
 
+  useEffect(() => {
+    return () => {
+      dispatch(clear());
+    };
+  });
+
   return (
     <Box>
-      <Typography sx={{ textAlign: 'center' }} variant="h3">
-        {`Crocodile room: ${roomId}`}
+      <Typography
+        noWrap
+        sx={{
+          textAlign: 'center',
+          fontSize: {
+            lg: 50,
+            md: 40,
+            sm: 26,
+            xs: 20,
+          },
+        }}
+        variant="h3"
+      >
+        <span className="gradient-text">Crocodile room: </span>
+        {roomId}
       </Typography>
-      <Box sx={{ display: 'flex', flexDirection: 'column', mt: 2, gap: 2 }}>
-        <Box>
-          <Chat isAuthor={isAuthor} />
-        </Box>
-        <Box>
-          <Canvas isAuthor={isAuthor} />
-        </Box>
+      <Box sx={{ mt: 4 }}>
+        <PlayingArea isAuthor={isAuthor} />
       </Box>
     </Box>
   );

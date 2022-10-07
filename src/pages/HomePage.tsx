@@ -6,6 +6,7 @@ import { reverse } from 'named-urls';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { routes } from '~/routes';
+import { Gallery } from '~/features/gallery/views';
 
 export const HomePage = () => {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ export const HomePage = () => {
 
   return (
     <Box>
-      <Typography sx={{ textAlign: 'center' }} variant="h3">
+      <Typography sx={{ textAlign: 'center' }} variant="h3" className="gradient-text text-center">
         Crocodile Game
       </Typography>
       <Typography sx={{ textAlign: 'center', mt: 2 }}>
@@ -28,10 +29,11 @@ export const HomePage = () => {
         How it works?
       </Typography>
       <ol>
-        <li>Think of a word and create a room!</li>
+        <li>Think of a riddle and create a room!</li>
         <li>Invite your friends and start drawing!</li>
         <li>Friends have to guess the word from the picture in the text chat!</li>
         <li>The first person to guess your word wins!</li>
+        <li>The picture and the answer will go to the gallery!</li>
       </ol>
       <Box
         sx={{
@@ -53,7 +55,11 @@ export const HomePage = () => {
             width: '100%',
           }}
         >
-          <Typography sx={{ textAlign: 'center' }} variant="h5">
+          <Typography
+            sx={{ textAlign: 'center' }}
+            variant="h5"
+            className="gradient-text text-center"
+          >
             Create new room
           </Typography>
           <TextField
@@ -83,7 +89,11 @@ export const HomePage = () => {
             width: '100%',
           }}
         >
-          <Typography sx={{ textAlign: 'center' }} variant="h5">
+          <Typography
+            sx={{ textAlign: 'center' }}
+            variant="h5"
+            className="gradient-text text-center"
+          >
             Join to room
           </Typography>
           <TextField
@@ -104,11 +114,7 @@ export const HomePage = () => {
           </Button>
         </Box>
       </Box>
-      <Box>
-        <Typography sx={{ textAlign: 'center', mt: 2 }} variant="h4">
-          Last guessed words
-        </Typography>
-      </Box>
+      <Gallery />
     </Box>
   );
 };

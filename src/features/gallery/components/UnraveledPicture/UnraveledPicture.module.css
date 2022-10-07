@@ -1,0 +1,14 @@
+.picture {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.big {
+  grid-row: span 2;
+  grid-column: span 2;
+}
+
+.picture:hover {
+  transform: scale(1.01);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  box-shadow: -5px 5px 30px 5px var(--accent1), 5px -5px 30px 5px var(--accent2);
+}
