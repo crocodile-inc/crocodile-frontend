@@ -12,6 +12,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { SocketProvider } from '~/shared/providers/socketProvider';
 import { store } from '~/store';
 import { theme } from '~/theme';
+import '~/i18nInit';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <Provider store={store}>

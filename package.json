@@ -23,7 +23,8 @@
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.4",
     "react-router-dom": "^6.4.1",
-    "socket.io-client": "^4.5.2"
+    "socket.io-client": "^4.5.2",
+    "ttag": "^1.7.24"
   },
   "devDependencies": {
     "@babel/core": "^7.19.1",
@@ -33,6 +34,7 @@
     "@vitejs/plugin-react": "^2.1.0",
     "babel-loader": "^8.2.5",
     "prettier": "^2.7.1",
+    "ttag-cli": "^1.10.1",
     "typescript": "^4.6.4",
     "vite": "^3.1.0"
   }
