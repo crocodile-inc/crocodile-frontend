@@ -1,4 +1,5 @@
 import { addLocale, useLocale as localize } from 'ttag';
+import ruTranslations from '../i18n/ru.po.json';
 
 export type Locale = 'ru' | 'en';
 const LOCALE_KEY = '__locale';
@@ -21,9 +22,16 @@ export const saveLocale = (locale: Locale) => {
 
 const locale = getLocale();
 
-if (locale !== 'en') {
-  const translationsObj = await import(`../i18n/${locale}.po.json`);
-  addLocale(locale, translationsObj);
-  localize(locale);
-  document.documentElement.setAttribute('lang', locale);
+switch (locale) {
+  case 'en': {
+    localize(locale);
+    document.documentElement.setAttribute('lang', locale);
+    break;
+  }
+  case 'ru': {
+    addLocale(locale, ruTranslations);
+    localize(locale);
+    document.documentElement.setAttribute('lang', locale);
+    break;
+  }
 }
