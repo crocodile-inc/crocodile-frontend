@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { routes } from '~/routes';
 import { Gallery } from '~/features/gallery/views';
+import { t } from 'ttag';
 
 export const HomePage = () => {
   const navigate = useNavigate();
@@ -19,21 +20,20 @@ export const HomePage = () => {
   return (
     <Box>
       <Typography sx={{ textAlign: 'center' }} variant="h3" className="gradient-text text-center">
-        Crocodile Game
+        {t`Crocodile Game`}
       </Typography>
       <Typography sx={{ textAlign: 'center', mt: 2 }}>
-        Draw and win. Guess what others are drawing and win too! Here is everything you need to know
-        about the game!
+        {t`Draw and win. Guess what others are drawing and win too! Here is everything you need to know about the game!`}
       </Typography>
       <Typography sx={{ mt: 2 }} variant="h5">
-        How it works?
+        {t`How it works?`}
       </Typography>
       <ol>
-        <li>Think of a riddle and create a room!</li>
-        <li>Invite your friends and start drawing!</li>
-        <li>Friends have to guess the word from the picture in the text chat!</li>
-        <li>The first person to guess your word wins!</li>
-        <li>The picture and the answer will go to the gallery!</li>
+        <li>{t`Think of a riddle and create a room!`}</li>
+        <li>{t`Invite your friends and start drawing!`}</li>
+        <li>{t`Friends have to guess the word from the picture in the text chat!`}</li>
+        <li>{t`The first person to guess your word wins!`}</li>
+        <li>{t`The picture and the answer will go to the gallery!`}</li>
       </ol>
       <Box
         sx={{
@@ -60,14 +60,14 @@ export const HomePage = () => {
             variant="h5"
             className="gradient-text text-center"
           >
-            Create new room
+            {t`Create new room`}
           </Typography>
           <TextField
             size="small"
             fullWidth
             value={riddleForCreateRoom}
             onChange={e => setRiddleForCreateRoom(e.target.value)}
-            label="Riddle"
+            label={t`Riddle`}
             variant="outlined"
           />
           <Button
@@ -76,7 +76,7 @@ export const HomePage = () => {
             startIcon={<AddIcon />}
             onClick={() => startNewGame(riddleForCreateRoom)}
           >
-            Create
+            {t`Create`}
           </Button>
         </Box>
         <Box
@@ -94,14 +94,14 @@ export const HomePage = () => {
             variant="h5"
             className="gradient-text text-center"
           >
-            Join to room
+            {t`Join to room`}
           </Typography>
           <TextField
             size="small"
             fullWidth
             value={joinToRoomId}
             onChange={e => setJoinToRoomId(e.target.value)}
-            label="Room id"
+            label={t`Room id`}
             variant="outlined"
           />
           <Button
@@ -110,7 +110,7 @@ export const HomePage = () => {
             startIcon={<ArrowForwardIcon />}
             onClick={() => navigate(reverse(routes.rooms.room, { roomId: joinToRoomId }))}
           >
-            Join
+            {t`Join`}
           </Button>
         </Box>
       </Box>

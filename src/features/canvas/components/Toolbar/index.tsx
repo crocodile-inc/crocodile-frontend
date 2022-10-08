@@ -9,6 +9,7 @@ import {
 } from '~/features/canvas/slice';
 import { useEffect, useState } from 'react';
 import { initialStrokeColor, initialStrokeWidth } from '~/features/canvas/constants';
+import { t } from 'ttag';
 
 export const Toolbar = () => {
   const dispatch = useAppDispatch();
@@ -53,7 +54,7 @@ export const Toolbar = () => {
         defaultValue={strokeWidth}
         onChange={(e, value) => setStrokeWidth(value as number)}
         valueLabelDisplay="auto"
-        valueLabelFormat={value => `Stroke width: ${value}`}
+        valueLabelFormat={value => t`Stroke width: ${value}`}
         step={4}
         marks
         min={2}
@@ -65,7 +66,7 @@ export const Toolbar = () => {
         type="color"
         value={strokeColor}
         onChange={e => setStrokeColor(e.target.value)}
-        label="Stroke"
+        label={t`Stroke`}
         variant="outlined"
       />
       <TextField
@@ -74,11 +75,11 @@ export const Toolbar = () => {
         type="color"
         value={backgroundColor}
         onChange={e => setBackgroundColorDebounced(e.target.value)}
-        label="Background"
+        label={t`Background`}
         variant="outlined"
       />
       <Button variant="outlined" onClick={clearPictureInRoom}>
-        Clear
+        {t`Clear`}
       </Button>
     </Box>
   );

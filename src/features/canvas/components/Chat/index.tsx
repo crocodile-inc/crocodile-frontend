@@ -8,6 +8,7 @@ import { addGuess } from '~/features/canvas/slice';
 import { canvasSizes, chatCoolDown } from '~/features/canvas/constants';
 import styles from './Chat.module.css';
 import classNames from 'classnames';
+import { t } from 'ttag';
 
 interface ChatProps {
   isAuthor: boolean;
@@ -92,7 +93,9 @@ export const Chat: FC<ChatProps> = ({ isAuthor }) => {
           } else {
             return (
               <Typography className={styles.victorious} key={guess.id}>
-                <span className="gradient-text">{guess.author} won, riddle word: </span>
+                <span className="gradient-text">
+                  {guess.author} {t`won, riddle word: `}
+                </span>
                 {guess.guess}
               </Typography>
             );
@@ -107,29 +110,30 @@ export const Chat: FC<ChatProps> = ({ isAuthor }) => {
             fullWidth
             value={author}
             onChange={e => setAuthor(e.target.value)}
-            label="Name"
+            label={t`Name`}
             variant="outlined"
           />
         )}
         <TextField
           size="small"
-          fullWidth
           value={guess}
+          sx={{ flexGrow: 1 }}
           onChange={e => setGuess(e.target.value)}
-          label={isAuthor ? 'Hint' : 'Guess'}
+          label={isAuthor ? t`Hint` : t`Guess`}
           variant="outlined"
         />
         <Button
           disabled={Boolean(!guess || !author || coolDown > 0)}
           variant="outlined"
           startIcon={<AddIcon />}
+          size="small"
           onClick={() => {
             sendGuessToServer(guess, author);
             setGuess('');
             setCoolDown(chatCoolDown);
           }}
         >
-          {coolDown > 0 ? coolDown : 'Send'}
+          {coolDown > 0 ? coolDown : t`Send`}
         </Button>
       </Box>
     </Box>

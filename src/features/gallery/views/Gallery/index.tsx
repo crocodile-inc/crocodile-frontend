@@ -1,5 +1,6 @@
 import { Box, Typography } from '@mui/material';
 import { UnraveledList } from '~/features/gallery/components';
+import { t } from 'ttag';
 
 export const Gallery = () => {
   return (
@@ -9,7 +10,7 @@ export const Gallery = () => {
         variant="h4"
         className="gradient-text text-center"
       >
-        Gallery
+        {t`Gallery`}
       </Typography>
       <UnraveledList />
     </Box>

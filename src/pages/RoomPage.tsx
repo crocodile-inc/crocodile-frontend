@@ -6,6 +6,7 @@ import { useLocation, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '~/shared/hooks/react-redux';
 import { PlayingArea } from '~/features/canvas/views';
 import { clear } from '~/features/canvas/slice';
+import { t } from 'ttag';
 
 interface RoomPageParams {
   roomId: string;
@@ -47,7 +48,7 @@ export const RoomPage = () => {
         }}
         variant="h3"
       >
-        <span className="gradient-text">Crocodile room: </span>
+        <span className="gradient-text">{t`Crocodile room: `}</span>
         {roomId}
       </Typography>
       <Box sx={{ mt: 4 }}>

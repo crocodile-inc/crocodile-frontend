@@ -1,0 +1,130 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=utf-8\n"
+"Plural-Forms: nplurals = 3; plural = (n % 10 == 1 && n % 100 != 11 ? 0 : n "
+"% 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 1 : 2);\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/pages/HomePage.tsx:23
+msgid "Crocodile Game"
+msgstr "Крокодил Игра"
+
+#: src/pages/HomePage.tsx:26
+msgid ""
+"Draw and win. Guess what others are drawing and win too! Here is everything "
+"you need to know about the game!"
+msgstr ""
+"Рисуй и выигрывай. Угадай, что рисуют другие, и тоже выиграй! Вот все, что "
+"вам нужно знать об игре!"
+
+#: src/pages/HomePage.tsx:29
+msgid "How it works?"
+msgstr "Как это работает?"
+
+#: src/pages/HomePage.tsx:32
+msgid "Think of a riddle and create a room!"
+msgstr "Придумайте загадку и создайте комнату!"
+
+#: src/pages/HomePage.tsx:33
+msgid "Invite your friends and start drawing!"
+msgstr "Приглашайте друзей и начинайте рисовать!"
+
+#: src/pages/HomePage.tsx:34
+msgid "Friends have to guess the word from the picture in the text chat!"
+msgstr "Друзья должны угадать слово по рисунку в текстовом чате!"
+
+#: src/pages/HomePage.tsx:35
+msgid "The first person to guess your word wins!"
+msgstr "Выигрывает тот, кто первым угадает ваше слово!"
+
+#: src/pages/HomePage.tsx:36
+msgid "The picture and the answer will go to the gallery!"
+msgstr "Рисунок и ответ попадут в галерею!"
+
+#: src/pages/HomePage.tsx:63
+msgid "Create new room"
+msgstr "Создать комнату"
+
+#: src/pages/HomePage.tsx:70
+msgid "Riddle"
+msgstr "Загадка"
+
+#: src/pages/HomePage.tsx:79
+msgid "Create"
+msgstr "Создать"
+
+#: src/pages/HomePage.tsx:97
+msgid "Join to room"
+msgstr "Присоедениться к комнате"
+
+#: src/pages/HomePage.tsx:104
+msgid "Room id"
+msgstr "Идентификатор комнаты"
+
+#: src/pages/HomePage.tsx:113
+msgid "Join"
+msgstr "Присоедениться"
+
+#: src/pages/NotFoundPage.tsx:13
+msgid "sorry but we can't find this page"
+msgstr "извините, но мы не можем найти эту страницу"
+
+#: src/pages/NotFoundPage.tsx:16
+msgid "< Go Home"
+msgstr "< На Главную"
+
+#: src/pages/RoomPage.tsx:51
+msgid "Crocodile room: "
+msgstr "Крокодил комната: "
+
+#: src/features/gallery/views/Gallery/index.tsx:13
+msgid "Gallery"
+msgstr "Галерея"
+
+#: src/features/canvas/components/Toolbar/index.tsx:57
+#, javascript-format
+msgid "Stroke width: ${ value }"
+msgstr "Ширина штриха: ${ value }"
+
+#: src/features/canvas/components/Toolbar/index.tsx:69
+msgid "Stroke"
+msgstr "Цвет"
+
+#: src/features/canvas/components/Toolbar/index.tsx:78
+msgid "Background"
+msgstr "Задний фон"
+
+#: src/features/canvas/components/Toolbar/index.tsx:82
+msgid "Clear"
+msgstr "Отчистить"
+
+#: src/features/canvas/components/Chat/index.tsx:97
+msgid "won, riddle word: "
+msgstr "победил, загаданное слово: "
+
+#: src/features/canvas/components/Chat/index.tsx:113
+msgid "Name"
+msgstr "Имя"
+
+#: src/features/canvas/components/Chat/index.tsx:122
+msgid "Hint"
+msgstr "Подсказка"
+
+#: src/features/canvas/components/Chat/index.tsx:122
+msgid "Guess"
+msgstr "Догадка"
+
+#: src/features/canvas/components/Chat/index.tsx:135
+msgid "Send"
+msgstr "Отправить"
+
+#: src/components/Footer/index.tsx:13
+#: src/components/Header/index.tsx:24
+msgid "Crocodile"
+msgstr "Крокодил"
+
+#: src/components/Footer/index.tsx:13
+msgid "All rights reserved ©"
+msgstr "Все права защищены ©"

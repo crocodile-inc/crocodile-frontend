@@ -1,6 +1,7 @@
 import { Box, Container, Paper, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { routes } from '~/routes';
+import { t } from 'ttag';
 
 export const Header = () => {
   return (
@@ -20,7 +21,7 @@ export const Header = () => {
         <Container maxWidth="lg">
           <Link to={routes.home}>
             <Typography className="gradient-text" style={{ width: 'min-content' }}>
-              Crocodile
+              {t`Crocodile`}
             </Typography>
           </Link>
         </Container>

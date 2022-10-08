@@ -23,7 +23,7 @@ const locale = getLocale();
 
 if (locale !== 'en') {
   const translationsObj = await import(`../i18n/${locale}.po.json`);
-  addLocale(locale, { ...translationsObj });
+  addLocale(locale, translationsObj);
   localize(locale);
   document.documentElement.setAttribute('lang', locale);
 }
