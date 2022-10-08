@@ -36,7 +36,6 @@ export const RoomPage = () => {
   return (
     <Box>
       <Typography
-        noWrap
         sx={{
           textAlign: 'center',
           fontSize: {

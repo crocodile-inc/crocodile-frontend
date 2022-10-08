@@ -102,7 +102,7 @@ export const Canvas: FC<CanvasProps> = ({ canEdit }) => {
     }
   };
 
-  const handleOnPointerUp = () => {
+  const handleStopDrawing = () => {
     if (context) {
       context.closePath();
       if (currentStrokePoints.length) {
@@ -112,6 +112,7 @@ export const Canvas: FC<CanvasProps> = ({ canEdit }) => {
           points: currentStrokePoints,
         };
         sendStrokeToServer(stroke);
+        setCurrentStrokePoints([]);
       }
     }
   };
@@ -128,7 +129,8 @@ export const Canvas: FC<CanvasProps> = ({ canEdit }) => {
         ref={canvasRef}
         onPointerDown={canEdit ? handleOnPointerDown : undefined}
         onPointerMove={canEdit ? handleOnPointerMove : undefined}
-        onPointerUp={canEdit ? handleOnPointerUp : undefined}
+        onPointerLeave={canEdit ? handleStopDrawing : undefined}
+        onPointerUp={canEdit ? handleStopDrawing : undefined}
         width={canvasSizes.width}
         height={canvasSizes.height}
         style={{ position: 'absolute', zIndex: 11, top: 0, left: 0, border: '1px solid black' }}

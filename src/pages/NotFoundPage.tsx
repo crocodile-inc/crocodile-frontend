@@ -5,13 +5,15 @@ import { routes } from '~/routes';
 export const NotFoundPage = () => {
   return (
     <Box>
-      <Typography sx={{ textAlign: 'center' }} variant="h2">
+      <Typography className="gradient-text text-center" sx={{ textAlign: 'center' }} variant="h2">
         404
       </Typography>
       <Typography sx={{ textAlign: 'center' }} variant="h4">
         sorry but we can't find this page
       </Typography>
-      <Link to={routes.home}>{'< Go Home'}</Link>
+      <Link className="gradient-text text-center" to={routes.home}>
+        {'< Go Home'}
+      </Link>
     </Box>
   );
 };
