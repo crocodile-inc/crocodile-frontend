@@ -1,9 +1,9 @@
 import { UnraveledPicture as IUnraveledPicture } from '~/features/gallery/models';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { reverse } from 'named-urls';
 import { routes } from '~/routes';
-import { Box, Typography } from '@mui/material';
+import { Box, Skeleton, Typography } from '@mui/material';
 import { config } from '~/config';
 import styles from './UnraveledPicture.module.css';
 import classNames from 'classnames';
@@ -13,7 +13,26 @@ interface UnraveledPictureProps {
 }
 
 export const UnraveledPicture: FC<UnraveledPictureProps> = ({ picture }) => {
+  const [isImgLoaded, setIsImgLoaded] = useState(false);
   const { id, answer } = picture;
+
+  if (!isImgLoaded) {
+    return (
+      <Skeleton
+        variant="rectangular"
+        width="100%"
+        height="100%"
+        className={classNames(styles.picture, styles.skeleton, { [styles.big]: picture.bigSize })}
+      >
+        <img
+          onLoad={() => setIsImgLoaded(true)}
+          alt={answer}
+          style={{ display: 'none' }}
+          src={`${config.serverUrl}/gallery/${id}.png`}
+        />
+      </Skeleton>
+    );
+  }
   return (
     <Link
       to={reverse(routes.rooms.room, { roomId: id })}
