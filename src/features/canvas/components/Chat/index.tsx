@@ -54,8 +54,9 @@ export const Chat: FC<ChatProps> = ({ isAuthor }) => {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        width: '100%',
-        minWidth: '450px',
+        width: '450px',
+        minWidth: '300px',
+        maxWidth: '450px',
         border: '1px solid black',
         p: 2,
         height: `${canvasSizes.height}px`,
@@ -63,10 +64,11 @@ export const Chat: FC<ChatProps> = ({ isAuthor }) => {
       }}
     >
       <Box
+        className="custom-scroll-vertical"
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          overflowY: 'scroll',
+          overflowY: 'auto',
           p: 1,
           flexGrow: 1,
           gap: 0.5,

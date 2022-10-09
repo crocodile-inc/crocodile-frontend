@@ -22,3 +22,66 @@ a {
   color: inherit;
   text-decoration: none;
 }
+
+.custom-scroll-vertical {
+  -webkit-overflow-scrolling: auto !important;
+}
+
+.custom-scroll-vertical::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+.custom-scroll-vertical::-webkit-scrollbar-track {
+  background-color: var(--accent2);
+  border-radius: 20px;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.custom-scroll-vertical::-webkit-scrollbar-thumb {
+  background-color: #10b981;
+  background-image: linear-gradient(
+    var(--accent1) 20%,
+    var(--accent2) 20%,
+    var(--accent2) 40%,
+    var(--accent1) 40%,
+    var(--accent1) 60%,
+    var(--accent2) 60%,
+    var(--accent2) 80%,
+    var(--accent1) 80%,
+    var(--accent1)
+  );
+  border-radius: 20px;
+}
+
+.custom-scroll-horizontal {
+  -webkit-overflow-scrolling: auto !important;
+}
+
+.custom-scroll-horizontal::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+.custom-scroll-horizontal::-webkit-scrollbar-track {
+  background-color: var(--accent2);
+  border-radius: 20px;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.custom-scroll-horizontal::-webkit-scrollbar-thumb {
+  background-color: var(--accent2);
+  background-image: linear-gradient(
+    90deg,
+    var(--accent1) 20%,
+    var(--accent2) 20%,
+    var(--accent2) 40%,
+    var(--accent1) 40%,
+    var(--accent1) 60%,
+    var(--accent2) 60%,
+    var(--accent2) 80%,
+    var(--accent1) 80%,
+    var(--accent1)
+  );
+  border-radius: 20px;
+}

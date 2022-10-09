@@ -1,5 +1,5 @@
 import { events, initialBackgroundColor } from '~/features/canvas/constants';
-import { addStroke, initializeRoom, setCurrentRoomId } from '~/features/canvas/slice';
+import { addStroke, initializeRoom, setCurrentRoomId, setLoading } from '~/features/canvas/slice';
 import { selectCurrentRoomId } from '~/features/canvas/slice/selectors';
 import { reverse } from 'named-urls';
 import { useNavigate } from 'react-router-dom';
@@ -32,6 +32,7 @@ export const useSocketActions = () => {
   const handleRoomDataFromServer = (
     roomData: { picture: Picture; guesses?: Guess[] } | undefined,
   ) => {
+    dispatch(setLoading(false));
     if (roomData) {
       dispatch(initializeRoom(roomData));
     }
