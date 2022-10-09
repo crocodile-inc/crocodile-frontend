@@ -88,15 +88,15 @@ msgstr "Галерея"
 msgid "Stroke width: ${ value }"
 msgstr "Ширина штриха: ${ value }"
 
-#: src/features/canvas/components/Toolbar/index.tsx:69
+#: src/features/canvas/components/Toolbar/index.tsx:71
 msgid "Stroke"
 msgstr "Цвет"
 
-#: src/features/canvas/components/Toolbar/index.tsx:78
+#: src/features/canvas/components/Toolbar/index.tsx:81
 msgid "Background"
 msgstr "Задний фон"
 
-#: src/features/canvas/components/Toolbar/index.tsx:82
+#: src/features/canvas/components/Toolbar/index.tsx:85
 msgid "Clear"
 msgstr "Отчистить"
 
@@ -116,15 +116,27 @@ msgstr "Подсказка"
 msgid "Guess"
 msgstr "Догадка"
 
-#: src/features/canvas/components/Chat/index.tsx:135
+#: src/features/canvas/components/Chat/index.tsx:136
 msgid "Send"
 msgstr "Отправить"
 
-#: src/components/Footer/index.tsx:13
+#: src/components/Footer/index.tsx:22
 #: src/components/Header/index.tsx:24
 msgid "Crocodile"
 msgstr "Крокодил"
 
-#: src/components/Footer/index.tsx:13
+#: src/components/Footer/index.tsx:22
 msgid "All rights reserved ©"
 msgstr "Все права защищены ©"
+
+#: src/features/canvas/views/PlayingArea/index.tsx:68
+msgid "Split"
+msgstr "Разбить"
+
+#: src/features/canvas/views/PlayingArea/index.tsx:73
+msgid "Canvas"
+msgstr "Холст"
+
+#: src/features/canvas/views/PlayingArea/index.tsx:77
+msgid "Chat"
+msgstr "Чат"
