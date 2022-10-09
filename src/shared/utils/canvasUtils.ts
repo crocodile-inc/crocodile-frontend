@@ -1,12 +1,20 @@
 import { Stroke } from '~/features/canvas/models';
-import { PointerEvent } from 'react';
+import { PointerEvent as PointerEventType, TouchEvent as TouchEventType } from 'react';
 
-export const getCoords = (e: PointerEvent<HTMLCanvasElement>) => {
-  const x = e.nativeEvent.offsetX;
-  const y = e.nativeEvent.offsetY;
-  const xEnd = x - e.movementX;
-  const yEnd = y - e.movementY;
-  return { from: { x, y }, to: { x: xEnd, y: yEnd } };
+export const getCoords = (
+  e: PointerEventType<HTMLCanvasElement> | TouchEventType<HTMLCanvasElement>,
+) => {
+  if (e.nativeEvent instanceof PointerEvent) {
+    const { offsetX, offsetY } = e.nativeEvent;
+    return { x: offsetX, y: offsetY };
+  } else {
+    const target = e.target as HTMLCanvasElement;
+    const rect = target.getBoundingClientRect();
+    const bodyRect = document.body.getBoundingClientRect();
+    const clientX = e.nativeEvent.touches[0].pageX - (rect.left - bodyRect.left);
+    const clientY = e.nativeEvent.touches[0].pageY - (rect.top - bodyRect.top);
+    return { x: clientX, y: clientY };
+  }
 };
 
 export const drawCircle = (
@@ -40,5 +48,15 @@ export const drawStroke = (context: CanvasRenderingContext2D, stroke: Stroke) =>
       context.stroke();
       context.closePath();
     }
+  }
+};
+
+export const isDrawing = (
+  e: PointerEventType<HTMLCanvasElement> | TouchEventType<HTMLCanvasElement>,
+) => {
+  if (e.nativeEvent instanceof TouchEvent) {
+    return e.nativeEvent.touches.length === 1;
+  } else {
+    return e.nativeEvent.buttons === 1;
   }
 };
