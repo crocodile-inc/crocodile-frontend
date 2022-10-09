@@ -56,6 +56,7 @@ export const Toolbar = () => {
         valueLabelDisplay="auto"
         valueLabelFormat={value => t`Stroke width: ${value}`}
         step={4}
+        sx={{ flexGrow: 1 }}
         marks
         min={2}
         max={62}
@@ -63,6 +64,7 @@ export const Toolbar = () => {
       <TextField
         size="small"
         fullWidth
+        sx={{ flexGrow: 1 }}
         type="color"
         value={strokeColor}
         onChange={e => setStrokeColor(e.target.value)}
@@ -72,6 +74,7 @@ export const Toolbar = () => {
       <TextField
         size="small"
         fullWidth
+        sx={{ flexGrow: 1 }}
         type="color"
         value={backgroundColor}
         onChange={e => setBackgroundColorDebounced(e.target.value)}

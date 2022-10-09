@@ -12,9 +12,9 @@ import {
   selectStrokeColor,
   selectStrokeWidth,
 } from '~/features/canvas/slice/selectors';
-import { FC, PointerEvent, useEffect, useRef, useState } from 'react';
+import { FC, PointerEvent, TouchEvent, useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '~/shared/hooks/react-redux';
-import { drawCircle, drawStroke, getCoords } from '~/shared/utils/canvasUtils';
+import { drawCircle, drawStroke, getCoords, isDrawing } from '~/shared/utils/canvasUtils';
 import { canvasSizes } from '~/features/canvas/constants';
 
 interface CanvasProps {
@@ -80,24 +80,26 @@ export const Canvas: FC<CanvasProps> = ({ canEdit }) => {
     };
   }, [socket, context]);
 
-  const handleOnPointerDown = (e: PointerEvent<HTMLCanvasElement>) => {
+  const handleStartDrawing = (
+    e: PointerEvent<HTMLCanvasElement> | TouchEvent<HTMLCanvasElement>,
+  ) => {
     if (context) {
       context.lineWidth = strokeWidth;
       context.strokeStyle = strokeColor;
       context.lineCap = 'round';
-      const coords = getCoords(e);
-      drawCircle(context, coords.from.x, coords.from.y, strokeWidth / 2, strokeColor);
-      setCurrentStrokePoints([{ x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY }]);
+      const { x, y } = getCoords(e);
+      drawCircle(context, x, y, strokeWidth / 2, strokeColor);
+      context.beginPath();
+      context.moveTo(x, y);
+      setCurrentStrokePoints([{ x, y }]);
     }
   };
 
-  const handleOnPointerMove = (e: PointerEvent<HTMLCanvasElement>) => {
-    if (context && e.buttons > 0) {
-      const coords = getCoords(e);
-      setCurrentStrokePoints(prev => [...prev, { x: coords.to.x, y: coords.to.y }]);
-      context.beginPath();
-      context.moveTo(coords.from.x, coords.from.y);
-      context.lineTo(coords.to.x, coords.to.y);
+  const handleDrawing = (e: PointerEvent<HTMLCanvasElement> | TouchEvent<HTMLCanvasElement>) => {
+    if (context && isDrawing(e)) {
+      const { x, y } = getCoords(e);
+      setCurrentStrokePoints(prev => [...prev, { x, y }]);
+      context.lineTo(x, y);
       context.stroke();
     }
   };
@@ -127,13 +129,23 @@ export const Canvas: FC<CanvasProps> = ({ canEdit }) => {
       />
       <canvas
         ref={canvasRef}
-        onPointerDown={canEdit ? handleOnPointerDown : undefined}
-        onPointerMove={canEdit ? handleOnPointerMove : undefined}
+        onPointerDown={canEdit ? handleStartDrawing : undefined}
+        onPointerMove={canEdit ? handleDrawing : undefined}
         onPointerLeave={canEdit ? handleStopDrawing : undefined}
         onPointerUp={canEdit ? handleStopDrawing : undefined}
+        onTouchStart={canEdit ? handleStartDrawing : undefined}
+        onTouchMove={canEdit ? handleDrawing : undefined}
+        onTouchEnd={canEdit ? handleStopDrawing : undefined}
         width={canvasSizes.width}
         height={canvasSizes.height}
-        style={{ position: 'absolute', zIndex: 11, top: 0, left: 0, border: '1px solid black' }}
+        style={{
+          position: 'absolute',
+          zIndex: 11,
+          top: 0,
+          left: 0,
+          border: '1px solid black',
+          touchAction: 'none',
+        }}
       />
     </Box>
   );
