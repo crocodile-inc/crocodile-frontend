@@ -9,4 +9,13 @@ export const theme = createTheme({
       main: '#dddd47',
     },
   },
+  components: {
+    MuiBackdrop: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'transparent',
+        },
+      },
+    },
+  },
 });
