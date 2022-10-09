@@ -87,6 +87,7 @@ export const Canvas: FC<CanvasProps> = ({ canEdit }) => {
       context.lineWidth = strokeWidth;
       context.strokeStyle = strokeColor;
       context.lineCap = 'round';
+      context.lineJoin = 'bevel';
       const { x, y } = getCoords(e);
       drawCircle(context, x, y, strokeWidth / 2, strokeColor);
       context.beginPath();
@@ -101,6 +102,8 @@ export const Canvas: FC<CanvasProps> = ({ canEdit }) => {
       setCurrentStrokePoints(prev => [...prev, { x, y }]);
       context.lineTo(x, y);
       context.stroke();
+    } else {
+      context?.closePath();
     }
   };
 
@@ -131,7 +134,7 @@ export const Canvas: FC<CanvasProps> = ({ canEdit }) => {
         ref={canvasRef}
         onPointerDown={canEdit ? handleStartDrawing : undefined}
         onPointerMove={canEdit ? handleDrawing : undefined}
-        onPointerLeave={canEdit ? handleStopDrawing : undefined}
+        onPointerCancel={canEdit ? handleStopDrawing : undefined}
         onPointerUp={canEdit ? handleStopDrawing : undefined}
         onTouchStart={canEdit ? handleStartDrawing : undefined}
         onTouchMove={canEdit ? handleDrawing : undefined}
