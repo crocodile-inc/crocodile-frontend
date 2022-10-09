@@ -7,6 +7,7 @@ import {
 import { Guess, Picture, Room, Stroke } from '~/features/canvas/models';
 
 interface CanvasState {
+  loading: boolean;
   currentRoomId: Room['id'] | undefined | null;
   isGameFinished: boolean;
   guesses: Guess[];
@@ -23,6 +24,7 @@ interface CanvasState {
 }
 
 const initialState: CanvasState = {
+  loading: false,
   currentRoomId: undefined,
   isGameFinished: false,
   guesses: [],
@@ -39,6 +41,9 @@ export const canvasSlice = createSlice({
   name: 'canvas',
   initialState,
   reducers: {
+    setLoading(state, { payload }: PayloadAction<CanvasState['loading']>) {
+      state.loading = payload;
+    },
     setStrokeWidth(state, { payload }: PayloadAction<Stroke['strokeWidth']>) {
       state.local.strokeWidth = payload;
     },
@@ -80,6 +85,7 @@ export const canvasSlice = createSlice({
 });
 
 export const {
+  setLoading,
   setStrokeWidth,
   setStrokeColor,
   setBackgroundColor,

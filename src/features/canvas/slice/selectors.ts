@@ -1,5 +1,6 @@
 import { RootState } from '~/store';
 
+export const selectloading = (state: RootState) => state.canvas.loading;
 export const selectStrokeWidth = (state: RootState) => state.canvas.local.strokeWidth;
 export const selectStrokeColor = (state: RootState) => state.canvas.local.strokeColor;
 export const selectBackgroundColor = (state: RootState) => {

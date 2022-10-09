@@ -81,7 +81,7 @@ export const Toolbar = () => {
         label={t`Background`}
         variant="outlined"
       />
-      <Button variant="outlined" onClick={clearPictureInRoom}>
+      <Button fullWidth variant="outlined" onClick={clearPictureInRoom}>
         {t`Clear`}
       </Button>
     </Box>
