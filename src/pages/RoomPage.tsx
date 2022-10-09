@@ -1,6 +1,6 @@
 import { Backdrop, Box, CircularProgress, Typography } from '@mui/material';
 import { useSocketActions } from '~/features/canvas/hooks/useSocketActions';
-import { selectCurrentRoomId, selectloading } from '~/features/canvas/slice/selectors';
+import { selectloading } from '~/features/canvas/slice/selectors';
 import { useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '~/shared/hooks/react-redux';
@@ -19,29 +19,25 @@ export const RoomPage = () => {
   const dispatch = useAppDispatch();
 
   const isLoading = useAppSelector(selectloading);
-  const currentRoomId = useAppSelector(selectCurrentRoomId);
 
   const isAuthor = Boolean(state?.author) || false;
 
-  const [, { joinTheGame }] = useSocketActions();
+  const [socket, { joinTheGame }] = useSocketActions();
 
   useEffect(() => {
     dispatch(setLoading(true));
-  }, []);
-
-  useEffect(() => {
     joinTheGame(roomId);
-  }, [currentRoomId]);
+  }, [socket]);
 
   useEffect(() => {
     return () => {
       dispatch(clear());
     };
-  });
+  }, []);
 
   return (
     <>
-      <Backdrop sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }} open={isLoading}>
+      <Backdrop sx={{ zIndex: theme => theme.zIndex.drawer + 1 }} open={isLoading}>
         <CircularProgress color="success" />
       </Backdrop>
       <Box>

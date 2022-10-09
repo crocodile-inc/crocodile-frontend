@@ -32,10 +32,10 @@ export const useSocketActions = () => {
   const handleRoomDataFromServer = (
     roomData: { picture: Picture; guesses?: Guess[] } | undefined,
   ) => {
-    dispatch(setLoading(false));
     if (roomData) {
       dispatch(initializeRoom(roomData));
     }
+    dispatch(setLoading(false));
   };
 
   const joinTheGame = (roomId: Room['id']) => {
