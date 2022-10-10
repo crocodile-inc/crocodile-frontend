@@ -1,13 +1,20 @@
-import { Chip, Container, Divider, Paper, Stack, Typography } from '@mui/material';
+import { Chip, Container, Divider, Paper, Stack, Typography, useTheme } from '@mui/material';
 import { useLocale } from '~/shared/hooks/useLocale';
 import { t } from 'ttag';
 
 export const Footer = () => {
+  const theme = useTheme();
+
   const { setLocale, locales, getLocale } = useLocale();
   const currentLocale = getLocale();
 
   return (
-    <Paper component="footer" sx={{ p: 2 }} variant="outlined" square>
+    <Paper
+      component="footer"
+      sx={{ p: 2, border: 0, borderTop: `1px solid ${theme.palette.divider}` }}
+      variant="outlined"
+      square
+    >
       <Container
         maxWidth="lg"
         sx={{
