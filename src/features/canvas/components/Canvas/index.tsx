@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, useTheme } from '@mui/material';
 import { useSocketActions } from '~/features/canvas/hooks/useSocketActions';
 import { Point } from '~/features/canvas/models';
 import {
@@ -22,6 +22,7 @@ interface CanvasProps {
 }
 
 export const Canvas: FC<CanvasProps> = ({ canEdit }) => {
+  const theme = useTheme();
   const dispatch = useAppDispatch();
   const remote = useAppSelector(selectRemote);
   const strokeColor = useAppSelector(selectStrokeColor);
@@ -51,6 +52,10 @@ export const Canvas: FC<CanvasProps> = ({ canEdit }) => {
   useEffect(() => {
     if (remote?.backgroundColor) {
       setBackgroundColor(remote.backgroundColor);
+    }
+    if (backgroundContext) {
+      backgroundContext.fillStyle = backgroundColor;
+      backgroundContext.fillRect(0, 0, backgroundRef.current!.width, backgroundRef.current!.height);
     }
   }, [remote?.backgroundColor]);
 
@@ -128,7 +133,7 @@ export const Canvas: FC<CanvasProps> = ({ canEdit }) => {
         ref={backgroundRef}
         width={canvasSizes.width}
         height={canvasSizes.height}
-        style={{ zIndex: 10, border: '1px solid black' }}
+        style={{ zIndex: 10, border: '1px solid transparent' }}
       />
       <canvas
         ref={canvasRef}
@@ -146,7 +151,7 @@ export const Canvas: FC<CanvasProps> = ({ canEdit }) => {
           zIndex: 11,
           top: 0,
           left: 0,
-          border: '1px solid black',
+          border: `1px solid ${theme.palette.divider}`,
           touchAction: 'none',
         }}
       />

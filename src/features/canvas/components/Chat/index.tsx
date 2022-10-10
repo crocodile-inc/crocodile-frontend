@@ -1,5 +1,5 @@
 import AddIcon from '@mui/icons-material/Add';
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { Box, Button, TextField, Typography, useTheme } from '@mui/material';
 import { FC, useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '~/shared/hooks/react-redux';
 import { selectGuesses } from '~/features/canvas/slice/selectors';
@@ -15,6 +15,7 @@ interface ChatProps {
 }
 
 export const Chat: FC<ChatProps> = ({ isAuthor }) => {
+  const theme = useTheme();
   const dispatch = useAppDispatch();
 
   const [author, setAuthor] = useState(isAuthor ? 'Author' : '');
@@ -57,7 +58,7 @@ export const Chat: FC<ChatProps> = ({ isAuthor }) => {
         width: '450px',
         minWidth: '300px',
         maxWidth: '450px',
-        border: '1px solid black',
+        border: `1px solid ${theme.palette.divider}`,
         p: 2,
         height: `${canvasSizes.height}px`,
         maxHeight: `${canvasSizes.height}px`,
@@ -71,7 +72,7 @@ export const Chat: FC<ChatProps> = ({ isAuthor }) => {
           overflowY: 'auto',
           p: 1,
           flexGrow: 1,
-          gap: 0.5,
+          gap: 1,
         }}
         ref={guessScrollRef}
       >
@@ -86,6 +87,7 @@ export const Chat: FC<ChatProps> = ({ isAuthor }) => {
                   className={classNames(styles.message, {
                     [styles.author]: author === guess.author,
                   })}
+                  sx={{ backgroundColor: theme.palette.background.default }}
                 >
                   <span className="gradient-text">{guess.author}: </span>
                   {guess.guess}

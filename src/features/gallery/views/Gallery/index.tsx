@@ -6,7 +6,7 @@ export const Gallery = () => {
   return (
     <Box>
       <Typography
-        sx={{ textAlign: 'center', mt: 4 }}
+        sx={{ textAlign: 'center', mt: 5 }}
         variant="h4"
         className="gradient-text text-center"
       >

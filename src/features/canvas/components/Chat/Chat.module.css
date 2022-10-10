@@ -25,7 +25,6 @@
 }
 
 .message {
-  background-color: #fff;
   word-break: break-word;
   align-self: start;
   width: max-content;
