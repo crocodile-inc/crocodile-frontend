@@ -9,7 +9,7 @@ export const Main: FC<MainProps> = ({ children }) => {
     <Container
       maxWidth="lg"
       component="main"
-      sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1, my: 2 }}
+      sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1, mt: 2, mb: 5 }}
     >
       {children}
     </Container>

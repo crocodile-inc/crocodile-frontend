@@ -25,12 +25,10 @@ export const PlayingArea: FC<PlayingAreaProps> = ({ isAuthor }) => {
   return (
     <Box
       sx={{
-        border: '1px solid black',
         display: 'flex',
         flexDirection: 'column',
         gap: 2,
         p: 2,
-        mb: 2,
         boxShadow: '-5px 5px 30px 5px var(--accent1), 5px -5px 30px 5px var(--accent2)',
       }}
     >

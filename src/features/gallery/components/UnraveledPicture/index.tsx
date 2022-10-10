@@ -3,7 +3,7 @@ import { FC, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { reverse } from 'named-urls';
 import { routes } from '~/routes';
-import { Box, Skeleton, Typography } from '@mui/material';
+import { Box, Skeleton, Typography, useTheme } from '@mui/material';
 import { config } from '~/config';
 import styles from './UnraveledPicture.module.css';
 import classNames from 'classnames';
@@ -13,6 +13,7 @@ interface UnraveledPictureProps {
 }
 
 export const UnraveledPicture: FC<UnraveledPictureProps> = ({ picture }) => {
+  const theme = useTheme();
   const [isImgLoaded, setIsImgLoaded] = useState(false);
   const { id, answer } = picture;
 
@@ -39,10 +40,10 @@ export const UnraveledPicture: FC<UnraveledPictureProps> = ({ picture }) => {
       style={{ height: '100%' }}
       className={classNames(styles.picture, { [styles.big]: picture.bigSize })}
     >
-      <Box sx={{ border: '1px solid black', height: '100%' }}>
+      <Box sx={{ border: `1px solid ${theme.palette.divider}`, height: '100%' }}>
         <img
           alt={answer}
-          style={{ width: '100%', borderBottom: '1px solid black' }}
+          style={{ width: '100%', borderBottom: `1px solid ${theme.palette.divider}` }}
           src={`${config.serverUrl}/gallery/${id}.png`}
         />
         <Typography

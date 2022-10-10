@@ -2,6 +2,7 @@
   --accent1: #dddd47;
   --accent2: #32b772;
   --gradient: -webkit-linear-gradient(45deg, var(--accent1), var(--accent2));
+  --box-shadow: -5px 5px 30px 5px var(--accent1), 5px -5px 30px 5px var(--accent2);
 }
 
 body {

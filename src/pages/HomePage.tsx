@@ -37,12 +37,12 @@ export const HomePage = () => {
       </ol>
       <Box
         sx={{
-          mt: 3,
+          mt: 5,
           display: 'flex',
           flexDirection: { xs: 'column', sm: 'row' },
           justifyContent: 'space-between',
           alignItems: 'baseline',
-          gap: 2,
+          gap: 3,
         }}
       >
         <Box
@@ -50,7 +50,7 @@ export const HomePage = () => {
             display: 'flex',
             flexDirection: 'column',
             gap: 2,
-            border: '1px solid black',
+            boxShadow: 'var(--box-shadow)',
             p: 1,
             width: '100%',
           }}
@@ -73,6 +73,7 @@ export const HomePage = () => {
           <Button
             disabled={Boolean(!riddleForCreateRoom)}
             variant="outlined"
+            color="secondary"
             startIcon={<AddIcon />}
             onClick={() => startNewGame(riddleForCreateRoom)}
           >
@@ -84,7 +85,7 @@ export const HomePage = () => {
             display: 'flex',
             flexDirection: 'column',
             gap: 2,
-            border: '1px solid black',
+            boxShadow: 'var(--box-shadow)',
             p: 1,
             width: '100%',
           }}
