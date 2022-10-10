@@ -1,5 +1,5 @@
 import { UnraveledPicture as IUnraveledPicture } from '~/features/gallery/models';
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { reverse } from 'named-urls';
 import { routes } from '~/routes';
@@ -7,6 +7,7 @@ import { Box, Skeleton, Typography, useTheme } from '@mui/material';
 import { config } from '~/config';
 import styles from './UnraveledPicture.module.css';
 import classNames from 'classnames';
+import { syntheticDelay } from '~/features/gallery/constants';
 
 interface UnraveledPictureProps {
   picture: IUnraveledPicture;
@@ -14,10 +15,21 @@ interface UnraveledPictureProps {
 
 export const UnraveledPicture: FC<UnraveledPictureProps> = ({ picture }) => {
   const theme = useTheme();
+
+  const [timeBeforeShow, setTimeBeforeShow] = useState(syntheticDelay);
   const [isImgLoaded, setIsImgLoaded] = useState(false);
   const { id, answer } = picture;
 
-  if (!isImgLoaded) {
+  useEffect(() => {
+    if (timeBeforeShow > 0) {
+      const timeoutId = setTimeout(() => setTimeBeforeShow(time => time - 1), 500);
+      return () => {
+        clearTimeout(timeoutId);
+      };
+    }
+  }, [timeBeforeShow]);
+
+  if (!isImgLoaded || !(timeBeforeShow <= 0)) {
     return (
       <Skeleton
         variant="rectangular"
