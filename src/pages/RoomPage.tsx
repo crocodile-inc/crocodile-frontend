@@ -37,8 +37,11 @@ export const RoomPage = () => {
 
   return (
     <>
-      <Backdrop sx={{ zIndex: theme => theme.zIndex.drawer + 1 }} open={isLoading}>
-        <CircularProgress color="success" />
+      <Backdrop
+        sx={{ zIndex: theme => theme.zIndex.drawer + 1, color: 'var(--accent1)' }}
+        open={isLoading}
+      >
+        <CircularProgress color="inherit" />
       </Backdrop>
       <Box>
         <Typography
