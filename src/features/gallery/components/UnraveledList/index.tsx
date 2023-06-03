@@ -1,18 +1,12 @@
-import { useAppDispatch, useAppSelector } from '~/shared/hooks/react-redux';
-import { selectUnraveled } from '~/features/gallery/slice/selectors';
-import { useEffect } from 'react';
-import { getUnraveled } from '~/features/gallery/slice/asyncThunks';
 import { Box } from '@mui/material';
 import { UnraveledPicture } from '~/features/gallery/components';
+import { FC } from 'react';
+import { UnraveledPicture as UnraveledPictureType } from '~/features/gallery/models';
 
-export const UnraveledList = () => {
-  const dispatch = useAppDispatch();
-  const unraveled = useAppSelector(selectUnraveled);
-
-  useEffect(() => {
-    dispatch(getUnraveled());
-  }, []);
-
+interface Props {
+  unraveled: UnraveledPictureType[];
+}
+export const UnraveledList: FC<Props> = ({ unraveled }) => {
   return (
     <Box
       sx={{

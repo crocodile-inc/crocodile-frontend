@@ -1,8 +1,23 @@
 import { Box, Typography } from '@mui/material';
 import { UnraveledList } from '~/features/gallery/components';
 import { t } from 'ttag';
+import { useAppDispatch, useAppSelector } from '~/shared/hooks/react-redux';
+import { selectUnraveled } from '~/features/gallery/slice/selectors';
+import { useEffect } from 'react';
+import { getUnraveled } from '~/features/gallery/slice/asyncThunks';
 
 export const Gallery = () => {
+  const dispatch = useAppDispatch();
+  const unraveled = useAppSelector(selectUnraveled);
+
+  useEffect(() => {
+    dispatch(getUnraveled());
+  }, []);
+
+  if (!unraveled.length) {
+    return null;
+  }
+
   return (
     <Box>
       <Typography
@@ -12,7 +27,7 @@ export const Gallery = () => {
       >
         {t`Gallery`}
       </Typography>
-      <UnraveledList />
+      <UnraveledList unraveled={unraveled} />
     </Box>
   );
 };
